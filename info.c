@@ -36,7 +36,7 @@ char *GetUptime(void)
 	char *uptime = malloc(50 * sizeof(char));
 	for (int i = 0; i < 50; ++i)
 		uptime[i] = 0;
-	ptr = popen("/bin/uptime -p", "r");
+	ptr = popen("uptime -p", "r");
 	if (ptr == NULL)
 		return "idk";
 	fgets(uptime, 49, ptr);
