@@ -39,23 +39,14 @@ void getuptime(char *buffer, int max_length)
 
 int main(int argc, char **argv)
 {
-    if (argc > 2) die(1, "usage: %s [artname]\n", argv[0]);
-
-    struct utsname uname_buf;
-    char hostname[max_hostname_length];
-    char username[max_username_length];
-    char uptime[max_uptime_length];
-
-    int i;
     char **art = NULL;
-
-    gethostname(hostname, max_hostname_length);
-    getlogin_r(username, max_username_length);
-    getuptime(uptime, max_uptime_length);
-
-    if (argc == 2)
+    if (argc > 2)
     {
-        for (i = 0; i < sizeof(arts)/sizeof(struct art_entry); ++i)
+        die(1, "usage: %s [artname]\n", argv[0]);
+    }
+    else if (argc == 2)
+    {
+        for (int i = 0; i < sizeof(arts)/sizeof(struct art_entry); ++i)
             if (!strcmp(arts[i].name, argv[1])) { art = arts[i].art; break; }
         if (!art) die(1, "Art %s not found\n", argv[1]);
     } else
@@ -63,7 +54,16 @@ int main(int argc, char **argv)
         art = arts[0].art;
     }
 
+    struct utsname uname_buf;
+    char hostname[max_hostname_length];
+    char username[max_username_length];
+    char uptime[max_uptime_length];
+
+    gethostname(hostname, max_hostname_length);
+    getlogin_r(username, max_username_length);
+    getuptime(uptime, max_uptime_length);
     uname(&uname_buf);
+
     printf("%s %s@%s\n", art[0], username, hostname);
     printf("%s --\n",    art[1]);
     printf("%s %s %s\n", art[2], uname_buf.sysname, uname_buf.release);
