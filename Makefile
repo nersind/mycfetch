@@ -1,15 +1,11 @@
-CC := cc
-CFLAGS :=
+PREFIX ?= /usr/local
 
 all: mycfetch
 
-mycfetch: main.c config.h
-	$(CC) main.c -o mycfetch $(CFLAGS)
-
 install: mycfetch
-	cp mycfetch /usr/bin/mycfetch
+	install -m 644 mycfetch $(PREFIX)/bin/
 
 clean:
-	rm mycfetch
+	rm -f mycfetch
 
 .PHONY: all install clean
