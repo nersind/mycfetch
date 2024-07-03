@@ -1,22 +1,11 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <sys/utsname.h>
 #include <unistd.h>
 #include <time.h>
-#include <stdarg.h>
 #include <string.h>
 
 #include "config.h"
 #include "defs.h"
-
-void die(int code, char *fmt, ...)
-{
-    va_list args;
-    va_start(args, fmt);
-    vfprintf(stderr, fmt, args);
-    va_end(args);
-    exit(code);
-}
 
 void getuptime(char *buffer, int max_length)
 {
@@ -39,20 +28,11 @@ void getuptime(char *buffer, int max_length)
 
 int main(int argc, char **argv)
 {
-    char **art = NULL;
-    if (argc > 2)
-    {
-        die(1, "usage: %s [artname]\n", argv[0]);
-    }
-    else if (argc == 2)
-    {
-        for (int i = 0; i < sizeof(arts)/sizeof(struct art_entry); ++i)
-            if (!strcmp(arts[i].name, argv[1])) { art = arts[i].art; break; }
-        if (!art) die(1, "Art %s not found\n", argv[1]);
-    } else
-    {
-        art = arts[0].art;
-    }
+    char **art = arts[0].art, *name = argv[1];
+    if (name)
+        for (int i = 0; i < sizeof(arts) / sizeof(*arts); ++i)
+            if (!strcmp(arts[i].name, name))
+                { art = arts[i].art; break; }
 
     struct utsname uname_buf;
     char hostname[max_hostname_length];
@@ -64,9 +44,15 @@ int main(int argc, char **argv)
     getuptime(uptime, max_uptime_length);
     uname(&uname_buf);
 
-    printf("%s %s@%s\n", art[0], username, hostname);
-    printf("%s --\n",    art[1]);
-    printf("%s %s %s\n", art[2], uname_buf.sysname, uname_buf.release);
-    printf("%s %s\n",    art[3], uptime);
+    printf(
+        "%s %s@%s\n"
+        "%s --\n"
+        "%s %s %s\n"
+        "%s %s\n",
+        art[0], username, hostname,
+        art[1],
+        art[2], uname_buf.sysname, uname_buf.release,
+        art[3], uptime
+    );
     return 0;
 }
