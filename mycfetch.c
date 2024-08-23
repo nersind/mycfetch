@@ -1,8 +1,11 @@
+#define _POSIX_C_SOURCE 200112L
+
 #include <stdio.h>
 #include <sys/utsname.h>
 #include <unistd.h>
 #include <time.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "config.h"
 #include "defs.h"
@@ -29,10 +32,15 @@ void getuptime(char *buffer, int max_length)
 int main(int argc, char **argv)
 {
     char **art = arts[0].art, *name = argv[1];
+    int ret = 0;
     if (name)
+    {
+        bool found = false;
         for (int i = 0; i < sizeof(arts) / sizeof(*arts); ++i)
             if (!strcmp(arts[i].name, name))
-                { art = arts[i].art; break; }
+            { art = arts[i].art; found = true; break; }
+        if (!found) ret = 69;
+    }
 
     struct utsname uname_buf;
     char hostname[max_hostname_length];
@@ -54,5 +62,5 @@ int main(int argc, char **argv)
         art[2], uname_buf.sysname, uname_buf.release,
         art[3], uptime
     );
-    return 0;
+    return ret;
 }
