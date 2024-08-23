@@ -1,0 +1,62 @@
+.Dd August 23, 2024
+.Dt MYCFETCH 1
+.Os
+.
+.Sh NAME
+.Nm mycfetch
+.Nd System info fetcher
+.Sh SYNOPSIS
+.Nm
+.Op Ar artname
+.
+.Sh DESCRIPTION
+.Nm
+shows you some information about computer. On the left you will see some cute
+ascii art, one the right -
+.Ql user@host ,
+kernel name and version, and current uptime.
+.Pp
+.
+Arts are added to
+.Nm
+through
+.Ql config.h
+file.
+.
+.Bl -tag -width Ds
+.It Ar artname
+Name of the art to show on the left.
+.
+.Sh EXIT STATUS
+.Nm
+returns 0 if done without errors or 69 if art is not found.
+.
+.Sh EXAMPLES
+For example,
+.Bd -literal -offset indent
+$ mycfetch cat
+.Ed
+Will show cat on the left with some system info.
+.Ql cat
+can be ommited because it's the first entry in the config.
+.Bd -literal -offset indent
+ ╱|、     naki@nakidai
+(˚ˎ。7    --
+| 、˜〵   Linux 6.10.4-arch2-1
+じしˍ,)ノ Up 1 days, 5 hours, 23 minutes
+.Ed
+.
+.Sh STANDARDS
+.Nm
+is
+.St -p1003.1-2004
+compatible, while also uses
+.Fn "int clock_gettime" "clockid_t" "struct timespec *"
+from
+.St -p1003.1b
+.Sy TMR
+extension.
+.
+.Sh AUTHORS
+.An Nakidai Perumenei Aq Mt plaza521@inbox.ru
+.
