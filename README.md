@@ -27,3 +27,4 @@ List of arts
 - `freebsd`  
 - `gentoo`  
 - `arch`  
+- `goida`  
