@@ -2,7 +2,10 @@
 
 static const int max_username_length = 128;
 static const int max_hostname_length = 128;
-static const int max_uptime_length   = 40;
+static const int max_uptime_length   = 80;
+
+const char *locale_en[] = {"Up", "seconds", "minutes", "hours", "days"};
+const char *locale_ru[] = {"Доооо охуенно", "секунд", "минут", "часов", "дней"};
 
 static struct art_entry arts[] = {
     {

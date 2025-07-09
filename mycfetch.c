@@ -1,6 +1,7 @@
 #define _POSIX_C_SOURCE 200112L
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <sys/utsname.h>
 #include <unistd.h>
 #include <time.h>
@@ -10,23 +11,32 @@
 #include "config.h"
 #include "defs.h"
 
+
+const char** LC_find() 
+{
+    const char *lang = getenv("LANG");
+    if    (strcmp(lang, "ru_RU.Utf-8") == 0) {return locale_ru;} 
+    return locale_en;
+}
+
 void getuptime(char *buffer, int max_length)
 {
     struct timespec uptime;
     clock_gettime(CLOCK_BOOTTIME, &uptime);
-    int days    = uptime.tv_sec / 86400;
-    int hours   = uptime.tv_sec / 3600 % 24;
-    int minutes = uptime.tv_sec / 60 % 60;
-    int seconds = uptime.tv_sec % 60;
+    int d    = uptime.tv_sec / 86400;
+    int h   = uptime.tv_sec / 3600 % 24;
+    int m = uptime.tv_sec / 60 % 60;
+    int s = uptime.tv_sec % 60;
+    const char** lc = LC_find();
 
     if (uptime.tv_sec < 60)
-        snprintf(buffer, max_length, "Up %d seconds", seconds);
+        snprintf(buffer, max_length, "%s %d %s",               lc[0], s, lc[1]);
     else if (uptime.tv_sec < 3600)
-        snprintf(buffer, max_length, "Up %d minutes", minutes);
+        snprintf(buffer, max_length, "%s %d %s",               lc[0], m, lc[2]);
     else if (uptime.tv_sec < 86400)
-        snprintf(buffer, max_length, "Up %d hours, %d minutes", hours, minutes);
+        snprintf(buffer, max_length, "%s %d %s %d %s",         lc[0], h, lc[3], m, lc[2]);
     else
-        snprintf(buffer, max_length, "Up %d days, %d hours, %d minutes", days, hours, minutes);
+        snprintf(buffer, max_length, "%s %d %s, %d %s, %d %s", lc[0], d, lc[4], h, lc[3], m, lc[2]);
 }
 
 int main(int argc, char **argv)
