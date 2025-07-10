@@ -6,6 +6,7 @@ static const int max_uptime_length   = 80;
 
 const char *locale_en[] = {"Up", "seconds", "minutes", "hours", "days"};
 const char *locale_ru[] = {"Доооо охуенно", "секунд", "минут", "часов", "дней"};
+const char *locale_ua[] = {"Ми з України", "секунд", "хвилин", "годин", "днів"};
 
 static struct art_entry arts[] = {
     {
@@ -52,5 +53,23 @@ static struct art_entry arts[] = {
             "\033[31m█████████████\033[0m",
             "\033[31m\033[40m ZOV SVO ZOV \033[0m"
         }
+    },
+    {
+    	"Ukraine",
+	{
+	    "\033[44m             \033[0m",
+            "\033[44m             \033[0m",
+            "\033[43m             \033[0m",
+            "\033[43m             \033[0m",
+	}   
+    },
+    {
+    	"zeleniy_klin",
+	{
+            "\033[44m\033[32m█▄           \033[0m",
+            "\033[44m\033[32m███▄         \033[0m",
+            "\033[43m\033[32m███▀         \033[0m",
+            "\033[43m\033[32m█▀           \033[0m",
+	}
     }
 };

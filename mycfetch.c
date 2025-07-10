@@ -15,7 +15,8 @@
 const char** LC_find() 
 {
     const char *lang = getenv("LANG");
-    if    (strcmp(lang, "ru_RU.Utf-8") == 0) {return locale_ru;} 
+    if    (strcmp(lang, "ru_RU.Utf-8") == 0) {return locale_ru;}
+    if    (strcmp(lang, "uk_UA.Utf-8") == 0) {return locale_ua;}
     return locale_en;
 }
 
